@@ -17,7 +17,7 @@ def tronPortrayal(agent):
     return portrayal
 
 
-grid = CanvasGrid(tronPortrayal, 10, 10, 500, 500)
+grid = CanvasGrid(tronPortrayal, 26, 26, 500, 500)
 
 server = ModularServer(TronModel,
                        [grid],
