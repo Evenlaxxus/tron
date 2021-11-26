@@ -29,34 +29,29 @@ class LightcycleAgent(Agent):
                 if new_pos in self.lightpath:
                     del fillings[new_direction]
                     self.move(fillings)
-                else:
-                    self.direction = new_direction
 
             elif new_direction == 'S':
                 new_pos[1] -= 1
                 if new_pos in self.lightpath:
                     del fillings[new_direction]
                     self.move(fillings)
-                else:
-                    self.direction = new_direction
 
             elif new_direction == 'W':
                 new_pos[0] -= 1
                 if new_pos in self.lightpath:
                     del fillings[new_direction]
                     self.move(fillings)
-                else:
-                    self.direction = new_direction
 
             elif new_direction == 'E':
                 new_pos[0] += 1
                 if new_pos in self.lightpath:
                     del fillings[new_direction]
                     self.move(fillings)
-                else:
-                    self.direction = new_direction
+
             print("nowa", new_pos, "stara", self.pos)
+            print("nowy dir", new_direction, "stary dir", self.direction)
             self.model.grid.move_agent(self, tuple(new_pos))
+            self.direction = new_direction
             self.pos = tuple(new_pos)
         else:
             self.model.grid._remove_agent(self.pos, self)
