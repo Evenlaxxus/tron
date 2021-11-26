@@ -30,7 +30,6 @@ class LightcycleAgent(Agent):
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = tuple(new_pos)
                     self.direction = new_direction
 
             elif new_direction == 'S':
@@ -39,7 +38,6 @@ class LightcycleAgent(Agent):
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = tuple(new_pos)
                     self.direction = new_direction
 
             elif new_direction == 'W':
@@ -48,7 +46,6 @@ class LightcycleAgent(Agent):
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = tuple(new_pos)
                     self.direction = new_direction
 
             elif new_direction == 'E':
@@ -57,8 +54,10 @@ class LightcycleAgent(Agent):
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = tuple(new_pos)
                     self.direction = new_direction
+            print("nowa", new_pos, "stara", self.pos)
+            self.model.grid.move_agent(self, tuple(new_pos))
+            self.pos = tuple(new_pos)
         else:
             self.model.grid._remove_agent(self.pos, self)
             self.model.schedule.remove(self)
