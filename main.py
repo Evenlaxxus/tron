@@ -13,12 +13,12 @@ def getStartingPosition(startingPositions, isRandom):
         while coords in startingPositions:
             coords = (random.randrange(0, 25), random.randrange(0, 25))
         return coords
-    if len(startingPositions) % 2 == 1:
+    if len(startingPositions) % 2 == 1 or len(startingPositions) == 0:
         options = [option for option in [(1, 7), (1, 13), (1, 20), (7, 1), (13, 1), (20, 1)] if
                    option not in startingPositions]
         return random.choice(options)
     else:
-        return 26 - startingPositions[-1][0], 26 - startingPositions[-1][1]
+        return 25 - startingPositions[-1][0], 25 - startingPositions[-1][1]
 
 
 def getStartingDirection(position, isRandom):
@@ -43,7 +43,7 @@ class TronModel(Model):
 
         for i in range(n_agents):
             self.startingPositions.insert(-1, getStartingPosition(self.startingPositions, isStartingPositionRandom))
-            a = LightcycleAgent(self.startingPositions[-1],
+            a = LightcycleAgent(i, self.startingPositions[-1],
                                 getStartingDirection(self.startingPositions[-1], isStartingPositionRandom), self)
             self.schedule.add(a)
             self.grid.place_agent(a, self.startingPositions[-1])

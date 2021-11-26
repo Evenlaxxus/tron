@@ -1,14 +1,12 @@
 from mesa import Agent
-from mesa.space import SingleGrid
-from mesa.datacollection import DataCollector
-from main import MyModel
+
 
 class LightcycleAgent(Agent):
     """
     Lightcycle driver agent
     """
 
-    def __init__(self, pos, direction, model):
+    def __init__(self, unique_id, pos, direction, model):
         """
         Create a new Lightcycle agent.
 
@@ -16,6 +14,7 @@ class LightcycleAgent(Agent):
            x, y: Agent initial location.
         """
         super().__init__(pos, model)
+        self.unique_id = unique_id
         self.pos = pos
         self.lightpath = [(-1, n) for n in range(0, 27)] + [(26, n) for n in range(0, 27)] + \
                          [(n, -1) for n in range(0, 27)] + [(n, 26) for n in range(0, 27)]
@@ -24,14 +23,14 @@ class LightcycleAgent(Agent):
     def move(self, fillings):
         if len(fillings) > 0:
             new_direction = min(fillings, key=fillings.get)
-            new_pos = self.pos
+            new_pos = list(self.pos)
             if new_direction == 'N':
                 new_pos[1] += 1
                 if new_pos in self.lightpath:
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = new_pos
+                    self.pos = tuple(new_pos)
                     self.direction = new_direction
 
             elif new_direction == 'S':
@@ -40,7 +39,7 @@ class LightcycleAgent(Agent):
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = new_pos
+                    self.pos = tuple(new_pos)
                     self.direction = new_direction
 
             elif new_direction == 'W':
@@ -49,7 +48,7 @@ class LightcycleAgent(Agent):
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = new_pos
+                    self.pos = tuple(new_pos)
                     self.direction = new_direction
 
             elif new_direction == 'E':
@@ -58,7 +57,7 @@ class LightcycleAgent(Agent):
                     del fillings[new_direction]
                     self.move(fillings)
                 else:
-                    self.pos = new_pos
+                    self.pos = tuple(new_pos)
                     self.direction = new_direction
         else:
             self.model.grid._remove_agent(self.pos, self)
