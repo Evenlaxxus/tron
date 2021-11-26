@@ -23,15 +23,17 @@ def getStartingPosition(startingPositions, isRandom):
 
 def getStartingDirection(position, isRandom):
     if isRandom:
-        random.choice(['N', 'S', 'W', 'E'])
-    if position[0] == 1:
-        return 'E'
-    if position[0] == 9:
-        return 'W'
-    if position[1] == 1:
-        return 'N'
-    if position[1] == 9:
-        return 'S'
+        return random.choice(['N', 'S', 'W', 'E'])
+    if max(26 - position[0], position[0]) > max(26 - position[1], position[1]):
+        if 26 - position[0] > position[0]:
+            return 'E'
+        else:
+            return 'W'
+    else:
+        if 26 - position[1] > position[1]:
+            return 'N'
+        else:
+            return 'S'
 
 
 class TronModel(Model):
