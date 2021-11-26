@@ -32,6 +32,7 @@ class LightcycleAgent(Agent):
                     self.move(fillings)
                 else:
                     self.pos = new_pos
+                    self.direction = new_direction
 
             elif new_direction == 'S':
                 new_pos[1] -= 1
@@ -40,6 +41,7 @@ class LightcycleAgent(Agent):
                     self.move(fillings)
                 else:
                     self.pos = new_pos
+                    self.direction = new_direction
 
             elif new_direction == 'W':
                 new_pos[0] -= 1
@@ -48,6 +50,7 @@ class LightcycleAgent(Agent):
                     self.move(fillings)
                 else:
                     self.pos = new_pos
+                    self.direction = new_direction
 
             elif new_direction == 'E':
                 new_pos[0] += 1
@@ -56,6 +59,7 @@ class LightcycleAgent(Agent):
                     self.move(fillings)
                 else:
                     self.pos = new_pos
+                    self.direction = new_direction
         else:
             self.model.grid._remove_agent(self.pos, self)
             self.model.schedule.remove(self)
