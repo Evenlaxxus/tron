@@ -21,39 +21,60 @@ class LightcycleAgent(Agent):
         self.direction = direction
 
     def move(self, fillings):
-        if len(fillings) > 0:
+        new_pos = self.pos
+        while len(fillings) > 0:
             new_direction = min(fillings, key=fillings.get)
             new_pos = list(self.pos)
+
             if new_direction == 'N':
                 new_pos[1] += 1
-                if new_pos in self.lightpath:
+                if tuple(new_pos) in self.lightpath:
                     del fillings[new_direction]
-                    self.move(fillings)
+                else:
+                    print("nowa", new_pos, "stara", self.pos)
+                    print("nowy dir", new_direction, "stary dir", self.direction)
+                    self.model.grid.move_agent(self, tuple(new_pos))
+                    self.direction = new_direction
+                    self.pos = tuple(new_pos)
+                    break
 
             elif new_direction == 'S':
                 new_pos[1] -= 1
-                if new_pos in self.lightpath:
+                if tuple(new_pos) in self.lightpath:
                     del fillings[new_direction]
-                    self.move(fillings)
+                else:
+                    print("nowa", new_pos, "stara", self.pos)
+                    print("nowy dir", new_direction, "stary dir", self.direction)
+                    self.model.grid.move_agent(self, tuple(new_pos))
+                    self.direction = new_direction
+                    self.pos = tuple(new_pos)
+                    break
 
             elif new_direction == 'W':
                 new_pos[0] -= 1
-                if new_pos in self.lightpath:
+                if tuple(new_pos) in self.lightpath:
                     del fillings[new_direction]
-                    self.move(fillings)
+                else:
+                    print("nowa", new_pos, "stara", self.pos)
+                    print("nowy dir", new_direction, "stary dir", self.direction)
+                    self.model.grid.move_agent(self, tuple(new_pos))
+                    self.direction = new_direction
+                    self.pos = tuple(new_pos)
+                    break
 
             elif new_direction == 'E':
                 new_pos[0] += 1
-                if new_pos in self.lightpath:
+                if tuple(new_pos) in self.lightpath:
                     del fillings[new_direction]
-                    self.move(fillings)
+                else:
+                    print("nowa", new_pos, "stara", self.pos)
+                    print("nowy dir", new_direction, "stary dir", self.direction)
+                    self.model.grid.move_agent(self, tuple(new_pos))
+                    self.direction = new_direction
+                    self.pos = tuple(new_pos)
+                    break
 
-            print("nowa", new_pos, "stara", self.pos)
-            print("nowy dir", new_direction, "stary dir", self.direction)
-            self.model.grid.move_agent(self, tuple(new_pos))
-            self.direction = new_direction
-            self.pos = tuple(new_pos)
-        else:
+        if new_pos == self.pos:
             self.model.grid._remove_agent(self.pos, self)
             self.model.schedule.remove(self)
 
