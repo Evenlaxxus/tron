@@ -7,7 +7,7 @@ from mesa.time import RandomActivation
 from agent import LightcycleAgent
 
 
-def getStartingPosition(startingPositions, isRandom=False):
+def getStartingPosition(startingPositions, isRandom):
     if isRandom:
         coords = (random.randrange(0, 10), random.randrange(0, 10))
         while coords in startingPositions:
@@ -21,7 +21,7 @@ def getStartingPosition(startingPositions, isRandom=False):
         return 10 - startingPositions[-1][0], 10 - startingPositions[-1][1]
 
 
-def getStartingDirection(position, isRandom=False):
+def getStartingDirection(position, isRandom):
     if isRandom:
         random.choice(['n', 's', 'w', 'e'])
     if position[0] == 1:
@@ -35,15 +35,16 @@ def getStartingDirection(position, isRandom=False):
 
 
 class TronModel(Model):
-    def __init__(self, n_agents, max_path_length, knows_other_paths, fov):
+    def __init__(self, n_agents, max_path_length, knows_other_paths, fov, isStartingPositionRandom):
         super().__init__()
         self.schedule = RandomActivation(self)
         self.grid = MultiGrid(10, 10, torus=False)
         self.startingPositions = []
 
         for i in range(n_agents):
-            self.startingPositions.insert(-1, getStartingPosition(self.startingPositions))
-            a = LightcycleAgent(self.startingPositions[-1], getStartingDirection(self.startingPositions[-1]), self)
+            self.startingPositions.insert(-1, getStartingPosition(self.startingPositions, isStartingPositionRandom))
+            a = LightcycleAgent(self.startingPositions[-1],
+                                getStartingDirection(self.startingPositions[-1], isStartingPositionRandom), self)
             self.schedule.add(a)
             self.grid.place_agent(a, self.startingPositions[-1])
 
