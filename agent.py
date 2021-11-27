@@ -63,7 +63,7 @@ class LightcycleAgent(Agent):
                     break
 
         if len(fillings) < 1:
-            self.model.grid._remove_agent(self.pos, self)
+            self.death()
             self.model.schedule.remove(self)
         else:
             print(fillings)
@@ -105,3 +105,7 @@ class LightcycleAgent(Agent):
 
         self.observation()
         self.move(fillings)
+
+    def death(self):
+        for coords in self.lightpath:
+            self.model.grid._remove_agent(coords, self.model.grid[coords[0], coords[1]][0])
