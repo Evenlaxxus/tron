@@ -27,6 +27,7 @@ class LightcycleAgent(Agent):
         new_direction = ''
         new_pos = self.pos
         while len(fillings) > 0:
+
             if self.first_move:
                 new_direction = random.choice(list(fillings.keys()))
                 self.first_move = False
@@ -61,24 +62,23 @@ class LightcycleAgent(Agent):
                 else:
                     break
 
-        if new_pos == self.pos:
+        if len(fillings) < 1:
             self.model.grid._remove_agent(self.pos, self)
             self.model.schedule.remove(self)
         else:
+            print(fillings)
             self.model.grid.place_agent(self, tuple(new_pos))
             self.direction = new_direction
             self.pos = tuple(new_pos)
 
     def observation(self):
         for agent in self.model.schedule.agents:
-            self.lightpath = set.union(self.lightpath, agent.lightpath)
-            self.lightpath.add(agent.pos)
+            if agent.unique_id != self.unique_id:
+                self.lightpath = set.union(self.lightpath, agent.lightpath)
+                self.lightpath.add(agent.pos)
 
     def step(self):
         self.lightpath.add(self.pos)
-
-        self.observation()
-
         if self.direction == 'N':
             left = len([n for n in self.lightpath if n[0] < self.pos[0]])
             front = len([n for n in self.lightpath if n[1] > self.pos[1]])
@@ -103,4 +103,5 @@ class LightcycleAgent(Agent):
             right = len([n for n in self.lightpath if n[1] < self.pos[1]])
             fillings = {'S': right, 'E': front, 'N': left}
 
+        self.observation()
         self.move(fillings)

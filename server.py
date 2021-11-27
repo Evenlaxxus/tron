@@ -107,7 +107,7 @@ server = ModularServer(TronModel,
                        [grid],
                        "dupa",
                        {
-                           "n_agents": 3,
+                           "n_agents": 5,
                            "max_path_length": 3,
                            "knows_other_paths": False,
                            "fov": 3,
