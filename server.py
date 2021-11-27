@@ -105,7 +105,7 @@ grid = CanvasGrid(tronPortrayal, 26, 26, 500, 500)
 
 server = ModularServer(TronModel,
                        [grid],
-                       "dupa",
+                       "Tron Agent Simulator",
                        {
                            "n_agents": 5,
                            "max_path_length": 5,
