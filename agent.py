@@ -17,7 +17,7 @@ class LightcycleAgent(Agent):
         super().__init__(pos, model)
         self.unique_id = unique_id
         self.pos = pos
-        self.lightpath = []
+        self.lightpath = set()
         self.boundries = [(-1, n) for n in range(0, 27)] + [(26, n) for n in range(0, 27)] + \
                          [(n, -1) for n in range(0, 27)] + [(n, 26) for n in range(0, 27)]
         self.direction = direction
@@ -69,8 +69,15 @@ class LightcycleAgent(Agent):
             self.direction = new_direction
             self.pos = tuple(new_pos)
 
+    def observation(self):
+        for agent in self.model.schedule.agents:
+            self.lightpath = set.union(self.lightpath, agent.lightpath)
+            self.lightpath.add(agent.pos)
+
     def step(self):
-        self.lightpath.append(self.pos)
+        self.lightpath.add(self.pos)
+
+        self.observation()
 
         if self.direction == 'N':
             left = len([n for n in self.lightpath if n[0] < self.pos[0]])
