@@ -13,7 +13,7 @@ def getStartingPosition(startingPositions, isRandom):
         while coords in startingPositions:
             coords = (random.randrange(0, 25), random.randrange(0, 25))
         return coords
-    if len(startingPositions) % 2 == 1 or len(startingPositions) == 0:
+    if len(startingPositions) % 2 == 0:
         options = [option for option in [(2, 7), (2, 13), (2, 20), (7, 2), (13, 2), (20, 2)] if
                    option not in startingPositions]
         return random.choice(options)

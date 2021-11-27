@@ -107,9 +107,9 @@ server = ModularServer(TronModel,
                        [grid],
                        "Tron Agent Simulator",
                        {
-                           "n_agents": 5,
-                           "max_path_length": 5,
-                           "fov": 0,
+                           "n_agents": 12,
+                           "max_path_length": 676,
+                           "fov": 3,
                            "isStartingPositionRandom": False
                        }
                        )
