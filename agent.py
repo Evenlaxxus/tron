@@ -70,7 +70,7 @@ class LightcycleAgent(Agent):
                 else:
                     break
 
-        if len(fillings) < 1:
+        if len(fillings) < 1 or not self.model.grid.is_cell_empty(new_pos):
             self.death()
             self.model.schedule.remove(self)
         else:

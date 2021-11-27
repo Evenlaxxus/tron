@@ -37,7 +37,7 @@ def getStartingDirection(position, isRandom):
 
 
 class TronModel(Model):
-    def __init__(self, n_agents, max_path_length, knows_other_paths, fov, isStartingPositionRandom):
+    def __init__(self, n_agents, max_path_length, fov, isStartingPositionRandom):
         super().__init__()
         self.schedule = RandomActivation(self)
         self.grid = MultiGrid(26, 26, torus=False)
@@ -56,5 +56,5 @@ class TronModel(Model):
 
 
 if __name__ == '__main__':
-    model = TronModel(5, 3, False, 3, False)
+    model = TronModel(5, 3, 3, False)
     model.step()

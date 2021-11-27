@@ -109,8 +109,7 @@ server = ModularServer(TronModel,
                        {
                            "n_agents": 5,
                            "max_path_length": 5,
-                           "knows_other_paths": False,
-                           "fov": 3,
+                           "fov": 0,
                            "isStartingPositionRandom": False
                        }
                        )
