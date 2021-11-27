@@ -7,7 +7,7 @@ class LightcycleAgent(Agent):
     Lightcycle driver agent
     """
 
-    def __init__(self, unique_id, pos, direction, model, fov):
+    def __init__(self, unique_id, pos, direction, model, fov, max_path_length):
         """
         Create a new Lightcycle agent.
 
@@ -24,6 +24,8 @@ class LightcycleAgent(Agent):
         self.direction = direction
         self.first_move = True
         self.fov = fov
+        self.max_path_length = max_path_length
+        self.ordered_lightpath = [self.pos]
 
     def move(self, fillings):
         new_direction = ''
@@ -38,28 +40,32 @@ class LightcycleAgent(Agent):
             new_pos = list(self.pos)
             if new_direction == 'N':
                 new_pos[1] += 1
-                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(new_pos) in self.others_lightpaths:
+                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(
+                        new_pos) in self.others_lightpaths:
                     del fillings[new_direction]
                 else:
                     break
 
             elif new_direction == 'S':
                 new_pos[1] -= 1
-                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(new_pos) in self.others_lightpaths:
+                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(
+                        new_pos) in self.others_lightpaths:
                     del fillings[new_direction]
                 else:
                     break
 
             elif new_direction == 'W':
                 new_pos[0] -= 1
-                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(new_pos) in self.others_lightpaths:
+                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(
+                        new_pos) in self.others_lightpaths:
                     del fillings[new_direction]
                 else:
                     break
 
             elif new_direction == 'E':
                 new_pos[0] += 1
-                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(new_pos) in self.others_lightpaths:
+                if tuple(new_pos) in self.lightpath or tuple(new_pos) in self.boundries or tuple(
+                        new_pos) in self.others_lightpaths:
                     del fillings[new_direction]
                 else:
                     break
@@ -71,10 +77,27 @@ class LightcycleAgent(Agent):
             self.model.grid.place_agent(self, tuple(new_pos))
             self.direction = new_direction
             self.pos = tuple(new_pos)
+            self.ordered_lightpath.append(self.pos)
+            self.eat_your_tail()
+
+    def eat_your_tail(self):
+        if len(self.ordered_lightpath) > self.max_path_length:
+            to_delete = self.ordered_lightpath[0]
+            self.lightpath.remove(to_delete)
+            self.ordered_lightpath = self.ordered_lightpath[1:]
+            self.model.grid._remove_agent(to_delete,
+                                          self.model.grid[to_delete[0], to_delete[1]][0])
+
+            for agent in self.model.schedule.agents:
+                if agent.unique_id != self.unique_id:
+                    if to_delete in agent.others_lightpaths:
+                        agent.others_lightpaths.remove(to_delete)
 
     def observation(self):
-        fov_grid = [(self.pos[0], self.pos[1] + n) for n in range(-self.fov, self.fov + 1) if self.pos[1] + n >= 0 and self.pos[1] + n <= 25] + \
-                   [(self.pos[0] + n, self.pos[1]) for n in range(-self.fov, self.fov + 1) if self.pos[0] + n >= 0 and self.pos[0] + n <= 25]
+        fov_grid = [(self.pos[0], self.pos[1] + n) for n in range(-self.fov, self.fov + 1) if
+                    self.pos[1] + n >= 0 and self.pos[1] + n <= 25] + \
+                   [(self.pos[0] + n, self.pos[1]) for n in range(-self.fov, self.fov + 1) if
+                    self.pos[0] + n >= 0 and self.pos[0] + n <= 25]
         print(self.unique_id, fov_grid)
         for agent in self.model.schedule.agents:
             if agent.unique_id != self.unique_id:
