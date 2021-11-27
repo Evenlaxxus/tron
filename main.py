@@ -46,7 +46,7 @@ class TronModel(Model):
         for i in range(n_agents):
             self.startingPositions.append(getStartingPosition(self.startingPositions, isStartingPositionRandom))
             a = LightcycleAgent(i, self.startingPositions[-1],
-                                getStartingDirection(self.startingPositions[-1], isStartingPositionRandom), self)
+                                getStartingDirection(self.startingPositions[-1], isStartingPositionRandom), self, fov)
             self.schedule.add(a)
             self.grid.place_agent(a, self.startingPositions[-1])
 
