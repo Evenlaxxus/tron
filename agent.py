@@ -98,7 +98,6 @@ class LightcycleAgent(Agent):
                     self.pos[1] + n >= 0 and self.pos[1] + n <= 25] + \
                    [(self.pos[0] + n, self.pos[1]) for n in range(-self.fov, self.fov + 1) if
                     self.pos[0] + n >= 0 and self.pos[0] + n <= 25]
-        print(self.unique_id, fov_grid)
         for agent in self.model.schedule.agents:
             if agent.unique_id != self.unique_id:
                 for point in agent.lightpath:

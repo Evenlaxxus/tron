@@ -13,12 +13,10 @@ def getStartingPosition(startingPositions, isRandom):
         while coords in startingPositions:
             coords = (random.randrange(0, 25), random.randrange(0, 25))
         return coords
-    if len(startingPositions) % 2 == 0:
-        options = [option for option in [(2, 7), (2, 13), (2, 20), (7, 2), (13, 2), (20, 2)] if
-                   option not in startingPositions]
-        return random.choice(options)
     else:
-        return 25 - startingPositions[-1][0], 25 - startingPositions[-1][1]
+        options = [(2, 13), (23, 13), (13, 2), (13, 23), (2, 6), (23, 20), (2, 20), (23, 6), (6, 2), (20, 23), (20, 2),
+                   (6, 23)]
+        return next(x for x in options if x not in startingPositions)
 
 
 def getStartingDirection(position, isRandom):
