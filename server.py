@@ -110,7 +110,7 @@ server = ModularServer(TronModel,
                        {
                            "n_agents": UserSettableParameter("slider", "Number of Agents", 4, 2, 12, 1),
                            "max_path_length": UserSettableParameter("slider", "Max Lightpath Length", 676, 10, 676, 1),
-                           "fov": UserSettableParameter("slider", "Field of View", 676, 1, 676, 1),
+                           "fov": UserSettableParameter("slider", "Field of View", 26, 1, 26, 1),
                            "isStartingPositionRandom": UserSettableParameter("checkbox", "Random Starting Positions", False)
                        }
                        )
